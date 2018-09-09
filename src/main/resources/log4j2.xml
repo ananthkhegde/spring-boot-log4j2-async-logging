@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://www.callicoder.com/spring-boot-log4j-2-example/-->
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} %5p %M : %m%n%ex
+        </Property>
+    </Properties>
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <RollingRandomAccessFile name="Demo-Application-File-Appender"
+                                 fileName="D:\logs\log4j2-demo.log"
+                                 filePattern="D:\logs\log4j2-demo-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1 KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2"/>
+        </RollingRandomAccessFile>
+
+    </Appenders>
+    <Loggers>
+    <AsyncLogger name="com.ananth.log4j2demo" level="debug" additivity="false">
+        <AppenderRef ref="Demo-Application-File-Appender" />
+    </AsyncLogger>
+
+        <Root level="info">
+            <AppenderRef ref="ConsoleAppender"/>
+            <!--<AppenderRef ref="FileAppender"/>-->
+        </Root>
+    </Loggers>
+</Configuration>
